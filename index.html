@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance and Prototype</title>
+</head>
+<body style="background-color: rgb(10 17 45); font-size: 24px;">
+    
+    <pre style="font-weight: bold; color: #3F51B5;">
+        Que-1
+            Create 2 objects - parent and child. Attach methods to parent and use those methods in child object using parents prototype
+
+    </pre>
+
+
+    <pre style="font-weight: bold; color: #C5CAE9;">
+        let parent = {
+            name: 'John',
+          
+            greet: function() {
+              return 'Hello, I am ' + this.name + '.';
+            }
+          };
+          
+          let child = Object.create(parent);
+          
+          child.name = 'Alice';
+          
+          
+          console.log(child.greet());
+    </pre>
+<hr>
+
+<pre style="font-weight: bold; color: #3F51B5;">
+    Que-2
+        Write code to explain prototype chaining
+</pre>
+
+
+<pre style="font-weight: bold; color: #C5CAE9;">
+    // Parent object constructor
+    function Animal(name) {
+        this.name = name;
+    }
+
+    // Adding a method to the prototype of the Animal object
+    Animal.prototype.makeSound = function() {
+        return "Generic animal sound";
+    };
+
+    // Child object constructor
+    function Dog(name, breed) {
+    // Call the parent constructor to set the name property
+    Animal.call(this, name);
+    this.breed = breed;
+    }
+
+    // Set up prototype chain: make Dog inherit from Animal
+    Dog.prototype = Object.create(Animal.prototype);
+    Dog.prototype.constructor = Dog;
+
+    // Add a method to the Dog prototype
+    Dog.prototype.bark = function() {
+        return "Woof!";
+    };
+
+    // Create instances of Animal and Dog
+    const animal = new Animal("Generic Animal");
+    const dog = new Dog("Buddy", "Labrador");
+
+    // Test the properties and methods
+    console.log(animal.name); // Output: "Generic Animal"
+    console.log(dog.name); // Output: "Buddy"
+    console.log(dog.breed); // Output: "Labrador"
+    console.log(animal.makeSound()); // Output: "Generic animal sound"
+    console.log(dog.makeSound()); // Output: "Generic animal sound"
+    console.log(dog.bark()); // Output: "Woof!"
+</pre>
+<hr>
+
+<pre style="font-weight: bold; color: #3F51B5;">
+    Que-3
+        Add a method to calculate sum of all elements in Array in array's protype, use that method to calculate sum for multiple arrays
+
+</pre>
+    
+
+<pre style="font-weight: bold; color: #C5CAE9;">
+    Array.prototype.sum = function() {
+        return this.reduce((acc, current) => acc + current, 0);
+    };
+    
+    const array1 = [1, 2, 3, 4, 5];
+    const array2 = [10, 20, 30];
+    const array3 = [2, 4, 6, 8];
+    
+    const sum1 = array1.sum();
+    const sum2 = array2.sum();
+    const sum3 = array3.sum();
+    
+    console.log(sum1); 
+    console.log(sum2); 
+    console.log(sum3); 
+</pre>
+<hr>
+
+<pre style="font-weight: bold; color: #3F51B5;">
+    Que-4
+        Write a JavaScript function to retrieve all the names of object's own and inherited properties.
+    
+</pre>
+
+
+<pre style="font-weight: bold; color: #C5CAE9;">
+    function getAllPropertyNames(obj) {
+        const propertyNames = [];
+      
+        function traverse(obj) {
+          const ownPropertyNames = Object.getOwnPropertyNames(obj);
+      
+          propertyNames.push(...ownPropertyNames);
+      
+          const prototype = Object.getPrototypeOf(obj);
+      
+          if (prototype === null) {
+            return;
+          }
+      
+          traverse(prototype);
+        }
+      
+        traverse(obj);
+      
+        return propertyNames;
+      }
+      
+      const parent = { a: 1, b: 2 };
+      const child = Object.create(parent);
+      child.c = 3;
+      
+      const allProperties = getAllPropertyNames(child);
+      console.log(allProperties);
+</pre>
+<hr>
+</body>
+</html>
